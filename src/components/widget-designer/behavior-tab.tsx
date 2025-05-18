@@ -2,6 +2,14 @@ import { WidgetBehavior } from "@/types";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Mic, Sparkles } from "lucide-react";
 
 interface BehaviorTabProps {
   behavior: WidgetBehavior;
@@ -11,6 +19,16 @@ interface BehaviorTabProps {
 export function BehaviorTab({ behavior, onChange }: BehaviorTabProps) {
   const handleChange = (key: keyof WidgetBehavior, value: any) => {
     onChange({ ...behavior, [key]: value });
+  };
+
+  // Set default values for new properties if they don't exist
+  const behaviorWithDefaults = {
+    enableVoiceInput: false,
+    enableAnimation: true,
+    animationType: "fade",
+    autoResponse: false,
+    autoResponseDelay: 3000,
+    ...behavior,
   };
 
   return (
@@ -121,6 +139,97 @@ export function BehaviorTab({ behavior, onChange }: BehaviorTabProps) {
                 }
               />
             </div>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Input Options</h3>
+        <div className="flex items-center justify-between">
+          <Label
+            htmlFor="enable-voice-input"
+            className="flex items-center gap-2"
+          >
+            <Mic className="h-4 w-4 text-muted-foreground" />
+            Enable voice input
+          </Label>
+          <Switch
+            id="enable-voice-input"
+            checked={behaviorWithDefaults.enableVoiceInput}
+            onCheckedChange={(checked) =>
+              handleChange("enableVoiceInput", checked)
+            }
+          />
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Animation Settings</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="enable-animation" className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-muted-foreground" />
+            Enable animations
+          </Label>
+          <Switch
+            id="enable-animation"
+            checked={behaviorWithDefaults.enableAnimation}
+            onCheckedChange={(checked) =>
+              handleChange("enableAnimation", checked)
+            }
+          />
+        </div>
+
+        {behaviorWithDefaults.enableAnimation && (
+          <div className="grid gap-2 pl-6">
+            <Label htmlFor="animation-type">Animation Type</Label>
+            <Select
+              id="animation-type"
+              value={behaviorWithDefaults.animationType}
+              onValueChange={(value) => handleChange("animationType", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select animation type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="fade">Fade</SelectItem>
+                <SelectItem value="slide">Slide</SelectItem>
+                <SelectItem value="bounce">Bounce</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Auto Response</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="auto-response">Enable auto response</Label>
+          <Switch
+            id="auto-response"
+            checked={behaviorWithDefaults.autoResponse}
+            onCheckedChange={(checked) => handleChange("autoResponse", checked)}
+          />
+        </div>
+        {behaviorWithDefaults.autoResponse && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="auto-response-delay">
+                Auto response delay (ms)
+              </Label>
+              <span className="text-sm text-muted-foreground">
+                {behaviorWithDefaults.autoResponseDelay}ms
+              </span>
+            </div>
+            <Slider
+              id="auto-response-delay"
+              value={[behaviorWithDefaults.autoResponseDelay]}
+              min={500}
+              max={10000}
+              step={500}
+              onValueChange={(value) =>
+                handleChange("autoResponseDelay", value[0])
+              }
+            />
           </div>
         )}
       </div>

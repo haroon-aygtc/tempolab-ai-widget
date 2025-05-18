@@ -65,7 +65,7 @@ export function WidgetCard({
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => onCopyEmbed(widget)}
+            onClick={() => handleCopyEmbed(widget)}
           >
             <Copy className="h-4 w-4" />
           </Button>

@@ -96,6 +96,11 @@ const mockWidgets: Widget[] = [
       requireUserInfo: true,
       collectEmailBeforeChat: true,
       collectNameBeforeChat: false,
+      enableVoiceInput: false,
+      enableAnimation: true,
+      animationType: "fade",
+      autoResponse: false,
+      autoResponseDelay: 3000,
     },
     aiConfig: {
       providerId: "gemini",
@@ -106,6 +111,8 @@ const mockWidgets: Widget[] = [
         "I'm sorry, I couldn't understand that. Could you rephrase or provide more details?",
       maxTokens: 1000,
       temperature: 0.7,
+      enableMemory: true,
+      memoryWindow: 10,
     },
   },
   {
@@ -133,6 +140,11 @@ const mockWidgets: Widget[] = [
       requireUserInfo: true,
       collectEmailBeforeChat: true,
       collectNameBeforeChat: true,
+      enableVoiceInput: true,
+      enableAnimation: true,
+      animationType: "slide",
+      autoResponse: true,
+      autoResponseDelay: 2000,
     },
     aiConfig: {
       providerId: "mistral",
@@ -143,6 +155,8 @@ const mockWidgets: Widget[] = [
         "I didn't quite catch that. Could you please rephrase your question?",
       maxTokens: 1500,
       temperature: 0.8,
+      enableMemory: true,
+      memoryWindow: 15,
     },
   },
 ];
@@ -179,6 +193,11 @@ export default function WidgetsPage() {
         requireUserInfo: false,
         collectEmailBeforeChat: false,
         collectNameBeforeChat: false,
+        enableVoiceInput: false,
+        enableAnimation: true,
+        animationType: "fade",
+        autoResponse: false,
+        autoResponseDelay: 3000,
       },
       aiConfig: {
         providerId: mockProviders[0].id,
@@ -188,6 +207,8 @@ export default function WidgetsPage() {
           "I'm sorry, I couldn't understand that. Could you rephrase?",
         maxTokens: 1000,
         temperature: 0.7,
+        enableMemory: true,
+        memoryWindow: 10,
       },
     };
 

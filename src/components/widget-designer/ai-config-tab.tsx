@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 interface AIConfigTabProps {
   aiConfig: WidgetAIConfig;
@@ -151,6 +152,38 @@ export function AIConfigTab({
           step={100}
           onValueChange={(value) => handleChange("maxTokens", value[0])}
         />
+      </div>
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Memory Settings</h3>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="enable-memory">Enable conversation memory</Label>
+          <Switch
+            id="enable-memory"
+            checked={
+              aiConfig.enableMemory !== undefined ? aiConfig.enableMemory : true
+            }
+            onValueChange={(checked) => handleChange("enableMemory", checked)}
+          />
+        </div>
+        {(aiConfig.enableMemory === undefined || aiConfig.enableMemory) && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="memory-window">Memory window (messages)</Label>
+              <span className="text-sm text-muted-foreground">
+                {aiConfig.memoryWindow || 10} messages
+              </span>
+            </div>
+            <Slider
+              id="memory-window"
+              value={[aiConfig.memoryWindow || 10]}
+              min={1}
+              max={50}
+              step={1}
+              onValueChange={(value) => handleChange("memoryWindow", value[0])}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

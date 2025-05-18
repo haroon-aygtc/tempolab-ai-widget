@@ -10,6 +10,8 @@ export interface WidgetAppearance {
   welcomeMessage?: string;
   chatWidth?: number;
   chatHeight?: number;
+  iconType: "chat" | "message" | "help" | "custom";
+  customIcon?: string;
   customTheme?: {
     name: string;
     colors: {
@@ -33,17 +35,27 @@ export interface WidgetBehavior {
   collectNameBeforeChat: boolean;
   collectEmailBeforeChat: boolean;
   initialMessage?: string;
+  enableVoiceInput: boolean;
+  enableAnimation: boolean;
+  animationType: "fade" | "slide" | "bounce";
+  autoResponse: boolean;
+  autoResponseDelay: number;
 }
 
 export interface AIModel {
   id: string;
   name: string;
+  description?: string;
+  providerId: string;
 }
 
 export interface AIProvider {
   id: string;
   name: string;
+  logo: string;
+  description: string;
   isConfigured: boolean;
+  apiKeyRequired: boolean;
   models: AIModel[];
 }
 
@@ -54,4 +66,16 @@ export interface WidgetAIConfig {
   fallbackMessage: string;
   temperature: number;
   maxTokens: number;
+  enableMemory: boolean;
+  memoryWindow: number;
+}
+
+export interface Widget {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  appearance: WidgetAppearance;
+  behavior: WidgetBehavior;
+  aiConfig: WidgetAIConfig;
 }
